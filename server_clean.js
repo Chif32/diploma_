@@ -23,7 +23,7 @@ async function ensureTables() {
       description TEXT,
       created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
     );
-
+//
     CREATE INDEX IF NOT EXISTS idx_jobs_title ON jobs (title);
     CREATE INDEX IF NOT EXISTS idx_jobs_company ON jobs (company);
     CREATE INDEX IF NOT EXISTS idx_jobs_location ON jobs (location);
