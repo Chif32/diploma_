@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Job Board — Поиск работы и вакансий</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container header__inner">
+        <h1 class="logo">ChifBoard</h1>
+        <p class="header__subtitle">Простое приложение для поиска работы и публикации вакансий</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="search-section">
+        <h2>Поиск вакансий</h2>
+        <form id="search-form" class="search-form">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Должность, компания, город или ключевое слово"
+          />
+          <button type="submit">Найти (мои вакансии)</button>
+          <button type="button" id="search-internet">Искать в интернете</button>
+        </form>
+       
+        <p class="search-hint">
+          
+              Левая кнопка ищет по вакансиям в вашей базе, правая — загружает вакансии из открытого
+          онлайн‑источника.
+          
+        </p>
+        
+      </section>
+
+      <section class="jobs-section">
+        <div class="section-header">
+          <h2>Список вакансий</h2>
+          <span id="jobs-count" class="jobs-count"></span>
+        </div>
+        <div id="jobs-list" class="jobs-list"></div>
+        <div id="jobs-empty" class="jobs-empty hidden">Пока нет вакансий.</div>
+      </section>
+
+      <section class="create-section">
+        <h2>Добавить вакансию</h2>
+        <form id="create-form" class="create-form">
+          <div class="form-row">
+            <label for="title">Название должности *</label>
+            <input type="text" id="title" required />
+          </div>
+          <div class="form-row">
+            <label for="company">Компания *</label>
+            <input type="text" id="company" required />
+          </div>
+          <div class="form-row">
+            <label for="location">Город</label>
+            <input type="text" id="location" />
+          </div>
+          <div class="form-row">
+            <label for="salary">Зарплата</label>
+            <input type="text" id="salary" placeholder="Например: 120 000 ₽" />
+          </div>
+          <div class="form-row">
+            <label for="description">Описание</label>
+            <textarea id="description" rows="4"></textarea>
+          </div>
+          <button type="submit">Опубликовать вакансию</button>
+          <p id="create-message" class="form-message"></p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p>@CHIF - https://t.me/Kobanchiknachetverke</p>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
+
