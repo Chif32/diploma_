@@ -1,6 +1,6 @@
 node_modules/
 .env
-*.log
 *.tmp
+*.log
 dist/
 build/

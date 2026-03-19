@@ -9,6 +9,7 @@ server {
     # Обслуживание фронтенда
     location / {
         try_files $uri $uri/ /index.html;
+
     }
 
     # Проксирование запросов к Node.js API

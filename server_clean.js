@@ -29,6 +29,7 @@ async function ensureTables() {
     CREATE INDEX IF NOT EXISTS idx_jobs_location ON jobs (location);
   `;
 
+
   try {
     await db.query(createTableSql);
     console.log('DB check: jobs table is ready');
