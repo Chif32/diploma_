@@ -9,68 +9,148 @@
   <body>
     <header class="header">
       <div class="container header__inner">
-        <h1 class="logo">ChifBoard</h1>
+        <div class="header__top">
+          <h1 class="logo">ChifBoard</h1>
+          <nav class="nav">
+            <button type="button" class="nav-btn nav-btn--active" data-view="search">Просмотр вакансий</button>
+            <button type="button" class="nav-btn" data-view="cabinet" id="nav-cabinet">Личный кабинет</button>
+            <button type="button" class="nav-btn" data-view="auth" id="nav-auth">Вход</button>
+            <span id="user-info" class="user-info hidden"></span>
+            <button type="button" class="nav-btn nav-btn--logout hidden" id="logout-btn">Выйти</button>
+          </nav>
+        </div>
         <p class="header__subtitle">Простое приложение для поиска работы и публикации вакансий</p>
       </div>
     </header>
 
     <main class="container">
-      <section class="search-section">
-        <h2>Поиск вакансий</h2>
-        <form id="search-form" class="search-form">
-          <input
-            type="text"
-            id="search-input"
-            placeholder="Должность, компания, город или ключевое слово"
-          />
-          <button type="submit">Найти (мои вакансии)</button>
-          <button type="button" id="search-internet">Искать в интернете</button>
-        </form>
-       
-        <p class="search-hint">
-          
-              Левая кнопка ищет по вакансиям в вашей базе, правая — загружает вакансии из открытого
-          онлайн‑источника.
-          
-        </p>
-        
-      </section>
+      <!-- Авторизация -->
+      <section id="view-auth" class="view hidden">
+        <div class="auth-section">
+          <div class="auth-tabs">
+            <button type="button" class="auth-tab auth-tab--active" data-tab="login">Вход</button>
+            <button type="button" class="auth-tab" data-tab="register">Регистрация</button>
+          </div>
 
-      <section class="jobs-section">
-        <div class="section-header">
-          <h2>Список вакансий</h2>
-          <span id="jobs-count" class="jobs-count"></span>
+          <form id="login-form" class="auth-form">
+            <h2>Вход в аккаунт</h2>
+            <div class="form-row">
+              <label for="login-username">Логин</label>
+              <input type="text" id="login-username" required autocomplete="username" />
+            </div>
+            <div class="form-row">
+              <label for="login-password">Пароль</label>
+              <input type="password" id="login-password" required autocomplete="current-password" />
+            </div>
+            <button type="submit">Войти</button>
+            <p id="login-message" class="form-message"></p>
+          </form>
+
+          <form id="register-form" class="auth-form hidden">
+            <h2>Регистрация</h2>
+            <div class="form-row">
+              <label for="register-username">Логин</label>
+              <input type="text" id="register-username" required autocomplete="username" minlength="3" />
+            </div>
+            <div class="form-row">
+              <label for="register-password">Пароль</label>
+              <input type="password" id="register-password" required autocomplete="new-password" minlength="4" />
+            </div>
+            <div class="form-row">
+              <label for="register-password-confirm">Подтверждение пароля</label>
+              <input type="password" id="register-password-confirm" required autocomplete="new-password" />
+            </div>
+            <button type="submit">Зарегистрироваться</button>
+            <p id="register-message" class="form-message"></p>
+          </form>
         </div>
-        <div id="jobs-list" class="jobs-list"></div>
-        <div id="jobs-empty" class="jobs-empty hidden">Пока нет вакансий.</div>
       </section>
 
-      <section class="create-section">
-        <h2>Добавить вакансию</h2>
-        <form id="create-form" class="create-form">
-          <div class="form-row">
-            <label for="title">Название должности *</label>
-            <input type="text" id="title" required />
+      <!-- Поиск вакансий -->
+      <section id="view-search" class="view">
+        <section class="search-section">
+          <h2>Поиск вакансий</h2>
+          <form id="search-form" class="search-form">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Должность, компания, город или ключевое слово"
+            />
+            <button type="submit">Найти (мои вакансии)</button>
+            <button type="button" id="search-russian">Российские вакансии</button>
+          </form>
+          <p class="search-hint">
+            Левая кнопка ищет по вакансиям в вашей базе, правая — показывает актуальные вакансии
+            российского рынка труда. Кнопка «+» добавляет вакансию в личный кабинет.
+          </p>
+        </section>
+
+        <section class="jobs-section">
+          <div class="section-header">
+            <h2>Список вакансий</h2>
+            <span id="jobs-count" class="jobs-count"></span>
           </div>
-          <div class="form-row">
-            <label for="company">Компания *</label>
-            <input type="text" id="company" required />
+          <div id="jobs-list" class="jobs-list"></div>
+          <div id="jobs-empty" class="jobs-empty hidden">Пока нет вакансий.</div>
+        </section>
+
+        <section class="create-section">
+          <h2>Добавить вакансию</h2>
+          <form id="create-form" class="create-form">
+            <div class="form-row">
+              <label for="title">Название должности *</label>
+              <input type="text" id="title" required />
+            </div>
+            <div class="form-row">
+              <label for="company">Компания *</label>
+              <input type="text" id="company" required />
+            </div>
+            <div class="form-row">
+              <label for="location">Город</label>
+              <input type="text" id="location" />
+            </div>
+            <div class="form-row">
+              <label for="salary">Зарплата</label>
+              <input type="text" id="salary" placeholder="Например: 120 000 ₽" />
+            </div>
+            <div class="form-row">
+              <label for="description">Описание</label>
+              <textarea id="description" rows="4"></textarea>
+            </div>
+            <button type="submit">Опубликовать вакансию</button>
+            <p id="create-message" class="form-message"></p>
+          </form>
+        </section>
+      </section>
+
+      <!-- Личный кабинет -->
+      <section id="view-cabinet" class="view hidden">
+        <section class="cabinet-section">
+          <div class="section-header">
+            <h2>Личный кабинет</h2>
+            <span id="cabinet-user" class="jobs-count"></span>
           </div>
-          <div class="form-row">
-            <label for="location">Город</label>
-            <input type="text" id="location" />
+          <p id="cabinet-auth-hint" class="search-hint hidden">
+            Для доступа к личному кабинету необходимо войти в аккаунт.
+          </p>
+          <div id="cabinet-jobs-list" class="jobs-list"></div>
+          <div id="cabinet-empty" class="jobs-empty hidden">У вас пока нет сохранённых вакансий.</div>
+        </section>
+      </section>
+
+      <!-- Просмотр одной вакансии из личного кабинета -->
+      <section id="view-cabinet-detail" class="view hidden">
+        <section class="cabinet-section">
+          <button type="button" class="btn-back" id="cabinet-detail-back">← Назад к списку</button>
+          <h2 id="detail-title"></h2>
+          <p id="detail-company" class="job-company"></p>
+          <p id="detail-meta" class="job-meta"></p>
+          <p id="detail-salary" class="job-salary"></p>
+          <div id="detail-description" class="job-description job-description--full"></div>
+          <div class="cabinet-actions">
+            <button type="button" id="detail-delete-btn" class="btn-danger">Удалить</button>
           </div>
-          <div class="form-row">
-            <label for="salary">Зарплата</label>
-            <input type="text" id="salary" placeholder="Например: 120 000 ₽" />
-          </div>
-          <div class="form-row">
-            <label for="description">Описание</label>
-            <textarea id="description" rows="4"></textarea>
-          </div>
-          <button type="submit">Опубликовать вакансию</button>
-          <p id="create-message" class="form-message"></p>
-        </form>
+        </section>
       </section>
     </main>
 
@@ -83,5 +163,3 @@
     <script src="app.js"></script>
   </body>
 </html>
-
-//

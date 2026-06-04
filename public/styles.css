@@ -34,6 +34,46 @@ body {
   gap: 8px;
 }
 
+.header__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: none;
+  font-size: 13px;
+  padding: 6px 12px;
+}
+
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.nav-btn--active {
+  background: #fff;
+  color: #2563eb;
+}
+
+.nav-btn--logout {
+  background: rgba(220, 38, 38, 0.8);
+}
+
+.user-info {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
 .logo {
   font-size: 28px;
   font-weight: 700;
@@ -52,11 +92,57 @@ main {
 
 .search-section,
 .jobs-section,
-.create-section {
+.create-section,
+.auth-section,
+.cabinet-section {
   background: #fff;
   border-radius: 10px;
   padding: 16px 16px 20px;
   box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+}
+
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.auth-tab {
+  background: #e5e7eb;
+  color: #374151;
+  box-shadow: none;
+}
+
+.auth-tab--active {
+  background: #2563eb;
+  color: #fff;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 400px;
+}
+
+input[type='password'] {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+input[type='password']:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.35);
 }
 
 h2 {
@@ -180,6 +266,124 @@ button:active {
 .job-description {
   font-size: 14px;
   color: #4b5563;
+  white-space: pre-line;
+}
+
+.job-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-add {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  background: #16a34a;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.btn-add:hover {
+  background: #15803d;
+}
+
+.btn-add:disabled {
+  background: #86efac;
+  cursor: default;
+}
+
+.btn-sm {
+  font-size: 12px;
+  padding: 4px 10px;
+}
+
+.btn-danger {
+  background: #dc2626;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+.btn-back {
+  background: #e5e7eb;
+  color: #374151;
+  box-shadow: none;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.btn-back:hover {
+  background: #d1d5db;
+}
+
+.job-description--full {
+  margin-top: 12px;
+  white-space: pre-wrap;
+}
+
+.cabinet-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal__content {
+  position: relative;
+  background: #fff;
+  border-radius: 10px;
+  padding: 24px;
+  max-width: 560px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.modal__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  color: #6b7280;
+  box-shadow: none;
+  font-size: 24px;
+  padding: 4px 8px;
+}
+
+.modal__close:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.modal__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
 }
 
 .jobs-empty {
