@@ -81,6 +81,33 @@ function showView(viewName) {
   }
 }
 
+function showAuthTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach((t) => {
+    t.classList.toggle('auth-tab--active', t.dataset.tab === tab);
+  });
+  const isLogin = tab === 'login';
+  document.getElementById('login-form').classList.toggle('hidden', !isLogin);
+  document.getElementById('register-form').classList.toggle('hidden', isLogin);
+}
+
+function redirectToLogin(message) {
+  showAuthTab('login');
+  showView('auth');
+  const msgEl = document.getElementById('login-message');
+  if (message) {
+    showFormMessage(msgEl, message, 'error');
+  } else {
+    msgEl.textContent = '';
+    msgEl.className = 'form-message';
+  }
+}
+
+function requireAuthForAdd() {
+  if (currentUser && getToken()) return true;
+  redirectToLogin('Для добавления вакансии необходимо войти в аккаунт');
+  return false;
+}
+
 function showCabinetJobDetail(job) {
   currentDetailJobId = job.id;
   document.getElementById('detail-title').textContent = job.title;
@@ -207,6 +234,11 @@ async function fetchMyJobs() {
 }
 
 async function saveJobToCabinet(job) {
+  if (!currentUser || !getToken()) {
+    redirectToLogin('Для добавления вакансии необходимо войти в аккаунт');
+    throw new Error('Требуется авторизация');
+  }
+
   const res = await apiFetch(`${API_BASE}/my-jobs`, {
     method: 'POST',
     body: JSON.stringify({
@@ -221,6 +253,16 @@ async function saveJobToCabinet(job) {
     }),
   });
   const data = await res.json();
+
+  if (res.status === 401) {
+    setToken(null);
+    currentUser = null;
+    savedJobKeys = new Set();
+    updateAuthUI();
+    redirectToLogin('Сессия истекла. Войдите снова');
+    throw new Error('Требуется авторизация');
+  }
+
   if (!res.ok) throw new Error(data.error || 'Не удалось сохранить вакансию');
   savedJobKeys.add(getJobKey(job));
   savedJobKeys.add(getContentKey(job.title, job.company));
@@ -270,11 +312,8 @@ function createAddButton(job) {
   addBtn.textContent = '+';
 
   addBtn.addEventListener('click', async () => {
-    if (!currentUser) {
-      alert('Войдите в аккаунт, чтобы добавлять вакансии в личный кабинет');
-      showView('auth');
-      return;
-    }
+    if (!requireAuthForAdd()) return;
+
     if (isJobAlreadySaved(job)) {
       addBtn.disabled = true;
       addBtn.textContent = '✓';
@@ -287,6 +326,7 @@ function createAddButton(job) {
       await saveJobToCabinet(job);
       addBtn.title = 'Добавлено в личный кабинет';
     } catch (err) {
+      if (err.message === 'Требуется авторизация') return;
       console.error(err);
       alert(err.message || 'Ошибка при сохранении вакансии');
       addBtn.disabled = false;
@@ -480,7 +520,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.querySelectorAll('.nav-btn[data-view]').forEach((btn) => {
     btn.addEventListener('click', () => {
       if (btn.dataset.view === 'cabinet' && !currentUser) {
-        showView('auth');
+        redirectToLogin('Для доступа к личному кабинету необходимо войти в аккаунт');
         return;
       }
       showView(btn.dataset.view);
@@ -491,11 +531,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.querySelectorAll('.auth-tab').forEach((tab) => {
     tab.addEventListener('click', () => {
-      document.querySelectorAll('.auth-tab').forEach((t) => t.classList.remove('auth-tab--active'));
-      tab.classList.add('auth-tab--active');
-      const isLogin = tab.dataset.tab === 'login';
-      document.getElementById('login-form').classList.toggle('hidden', !isLogin);
-      document.getElementById('register-form').classList.toggle('hidden', isLogin);
+      showAuthTab(tab.dataset.tab);
     });
   });
 
